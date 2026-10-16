@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-100 text-slate-900 antialiased;
+}
+
+/* Visible focus ring everywhere, for keyboard navigation (WCAG AA, Phase 5 groundwork). */
+:focus-visible {
+  @apply outline outline-2 outline-offset-2 outline-blue-600;
+}

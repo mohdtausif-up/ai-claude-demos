@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "SSShare",
+  "version": "1.0.0",
+  "description": "Capture the visible tab or share selected text with a private SSShare link that expires.",
+  "action": { "default_popup": "popup.html", "default_title": "SSShare" },
+  "options_page": "options.html",
+  "background": { "service_worker": "background.js", "type": "module" },
+  "permissions": ["activeTab", "storage", "contextMenus", "clipboardWrite", "scripting"],
+  "host_permissions": [],
+  "optional_host_permissions": ["https://*/*", "http://localhost/*"],
+  "icons": { "128": "icon-128.png" },
+  "commands": {
+    "capture": { "suggested_key": { "default": "Ctrl+Shift+S", "mac": "Command+Shift+S" }, "description": "Capture the visible tab" }
+  }
+}

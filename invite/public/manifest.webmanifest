@@ -1,0 +1,13 @@
+{
+  "name": "Invite.com",
+  "short_name": "Invite",
+  "description": "Beautiful invitations. Instant RSVPs. Complete event clarity.",
+  "start_url": "/app",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f7f6fd",
+  "theme_color": "#4338ca",
+  "icons": [
+    { "src": "/assets/img/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

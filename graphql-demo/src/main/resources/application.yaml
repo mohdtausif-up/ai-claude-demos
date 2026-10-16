@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: graphql-demo
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+  graphql:
+    graphiql:
+      enabled: true          # UI at /graphiql
+    websocket:
+      path: /graphql         # subscriptions over WebSocket on the same path
+    schema:
+      printer:
+        enabled: true        # schema text at /graphql/schema
+      inspection:
+        enabled: true        # logs schema vs. controller mismatches at startup
+      introspection:
+        enabled: true
+    http:
+      path: /graphql
+logging:
+  level:
+    org.springframework.graphql: INFO

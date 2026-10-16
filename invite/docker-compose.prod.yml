@@ -1,0 +1,25 @@
+# Production override: code is baked into the image (fast, immutable), no source bind mounts, opcache never re-stats files.
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+# Add a TLS-terminating proxy in front of `web`; set APP_URL=https://... so cookies are Secure and HSTS is sent.
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+    image: invite-app:prod
+    volumes:
+      - uploads:/var/www/html/public/uploads
+      - storage:/var/www/html/storage
+  worker:
+    image: invite-app:prod
+    volumes:
+      - storage:/var/www/html/storage
+  web:
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - uploads:/var/www/html/public/uploads:ro
+      - assets:/var/www/html/public
+volumes:
+  uploads:
+  storage:
+  assets:

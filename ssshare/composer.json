@@ -1,0 +1,26 @@
+{
+    "name": "ssshare/ssshare",
+    "description": "SSShare.com - private, temporary sharing for screenshots, images, text and code.",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.1",
+        "ext-pdo": "*",
+        "ext-gd": "*",
+        "ext-mbstring": "*",
+        "ext-json": "*",
+        "anthropic-ai/sdk": "*"
+    },
+    "suggest": {
+        "ext-imagick": "Preferred image processor (preserves animation, better colour handling)",
+        "ext-exif": "Required for JPEG orientation normalisation when using GD"
+    },
+    "autoload": {
+        "psr-4": { "App\\": "app/" },
+        "files": ["app/Support/helpers.php"]
+    },
+    "scripts": {
+        "test": "php tests/run.php",
+        "migrate": "php bin/migrate.php"
+    }
+}

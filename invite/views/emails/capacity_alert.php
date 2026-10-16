@@ -1,0 +1,3 @@
+<p><strong><?= e($event['title']) ?></strong> is <?= (int) $level >= 100 ? 'full' : (int) $level . '% full' ?>: <?= (int) $taken ?> of <?= (int) $capacity ?> places taken.</p>
+<?php if ((int) $level >= 100): ?><p>New guests are being waitlisted. If you can host more people, raise the maximum headcount in the event settings and they will move up automatically.</p><?php endif; ?>
+<p><a href="<?= e($link) ?>" style="display:inline-block;background:#4338ca;color:#ffffff;padding:12px 22px;border-radius:10px;text-decoration:none;font-weight:600;">Open guest list</a></p>

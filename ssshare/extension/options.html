@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>SSShare settings</title><link rel="stylesheet" href="popup.css"></head>
+<body>
+<main>
+    <h1>SSShare settings</h1>
+    <label>SSShare address <input id="base" type="url" placeholder="https://ssshare.com"></label>
+    <label>API key <input id="key" type="password" placeholder="sss_live_…" autocomplete="off"></label>
+    <p class="small">Create a key with the <code>uploads:write</code> scope under Account → API keys. The key is stored in your browser’s extension storage.</p>
+    <button id="save" class="primary">Save</button>
+    <p id="status" role="status"></p>
+</main>
+<script type="module" src="options.js"></script>
+</body>
+</html>

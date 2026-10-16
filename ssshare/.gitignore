@@ -1,0 +1,8 @@
+.env
+/vendor/
+/storage/private/*
+/storage/tmp/*
+/storage/logs/*
+/storage/sessions/*
+/storage/backups/*
+!/storage/**/.gitkeep

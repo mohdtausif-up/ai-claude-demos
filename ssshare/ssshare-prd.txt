@@ -1,0 +1,960 @@
+Product Requirements Document: SSShare.com
+1. Executive summary
+
+This PRD proposes SSShare.com, a privacy-focused platform for sharing screenshots, images, text snippets, code, and lightweight files through temporary or controlled links. The product should preserve the speed and simplicity of imageupload.io, while expanding it into a broader, more polished sharing workspace with stronger privacy, richer expiration controls, screenshot annotation, text-to-image sharing, team collaboration, advanced analytics, APIs, and an exceptional mobile-first interface.
+
+The proposed stack is:
+
+Backend: PHP 8.1
+Database: MySQL 8
+Frontend: HTML5, modern CSS, JavaScript
+Architecture: Server-rendered PHP enhanced with asynchronous JavaScript
+Storage: Local storage during development, S3-compatible object storage in production
+Workers: PHP CLI processes triggered through Supervisor or cron
+Caching and queues: Redis recommended
+Web server: Nginx with PHP-FPM
+Image processing: Imagick, with GD as fallback
+
+Research boundary: The competitive inventory below is based on publicly accessible pages and documentation available on October 6, 2026. It does not include private dashboard behavior that requires a paid account or features that have not been publicly documented.
+
+2. Competitive analysis: imageupload.io
+2.1 Uploading and file handling
+
+The public uploader supports drag-and-drop, file selection, clipboard paste, batch upload and folder dropping. Publicly documented image formats include PNG, JPEG/JPG, WebP, GIF and AVIF. The free-plan upload limit is 25 MB, increasing to 50 MB on Pro and 100 MB on Business.
+
+The service validates that an uploaded file can actually be decoded as an image. It normalizes orientation, removes embedded metadata and stores a processed result rather than blindly storing the original input.
+
+Its documented upload output includes:
+
+Human-readable share page
+Direct image URL
+HTML embed code
+BBCode embed code
+Markdown embed code
+Image dimensions and MIME type in API responses
+Expiration and password status
+Current API quota information
+2.2 Temporary-sharing controls
+
+The platform has three main deletion models:
+
+Fixed expiration: Free users can select one day, one week or one month. Starter adds longer or non-expiring storage, while Pro and Business support custom expiration dates.
+Delete after view: The image is consumed after the first successful direct-image request.
+View-limited sharing: The owner can select between 1 and 999 unique views. Repeated requests from the same browser fingerprint are deduplicated for 30 minutes, and the upload is deleted after 30 days if the view limit has not been reached.
+
+Password protection can be combined with timed expiration, burn-after-view or view-limited sharing. The documented implementation protects both the share page and image-serving path until access is authorized.
+
+2.3 Privacy and anonymous use
+
+Anonymous uploads can be made without creating a user account when anonymous uploading is enabled. Anonymous uploads receive the same documented file validation, metadata removal, expiration and password options, but do not appear in a management dashboard. Users must save the returned links themselves.
+
+The service explicitly states that “anonymous” refers to the absence of an attached account, not invisibility. IP addresses, browser data, fingerprints and security events may still be processed for rate limiting, abuse prevention, investigations and legal compliance.
+
+EXIF metadata, GPS coordinates and camera information are removed during hosted-image processing. A separate browser-only EXIF tool can inspect and clean JPEG/JPG files locally without uploading them, with a documented limit of 25 MB and 40 megapixels.
+
+2.4 Accounts, organization and management
+
+Registered users receive dashboard-based management, storage quotas, folder organization and image management. Public galleries and custom short links are offered on eligible plans. Image-history duration is documented as 90 days for Pro and one year for Business.
+
+The service provides:
+
+Folder organization
+Image listing
+Individual-image inspection
+Image deletion
+Storage-quota display
+View-count analytics
+Referrer analytics
+Country and device analytics on higher plans
+Public galleries
+Custom short links on Pro and Business
+2.5 API and developer capabilities
+
+A Bearer-authenticated REST API accepts multipart/form-data through POST /api/upload. It supports expiration mode, view limit, password, folder, custom slug and custom expiration date. Responses return structured URLs, embed snippets, image metadata, expiration details and quota information.
+
+The API documents standard HTTP error handling for malformed input, authentication failure, unavailable plan features, moderation rejection, oversized files, unsupported types, rate limits, storage failures and overloaded processing queues. Successful responses include quota-used, quota-limit and quota-remaining headers.
+
+An MCP server shares the same key and quota as the REST API. It supports image upload, image listing, metadata retrieval, deletion, folder listing, folder creation and quota checks for compatible AI tools. The public materials mention compatibility with tools such as Claude Desktop, Cursor and Windsurf.
+
+2.6 Plans and limits
+
+The documented plans are:
+
+Free: 500 MB, 25 MB files, 10 API/MCP uploads monthly and expiration up to one month.
+Starter: 5 GB, 25 MB files, 50 API/MCP uploads monthly, no-expiration option and basic analytics.
+Pro: 50 GB, 50 MB files, unlimited API/MCP uploads, custom expiration dates, custom links, public galleries, full analytics and 90-day history.
+Business: 500 GB, 100 MB files, unlimited API/MCP uploads, one-year history and dedicated support. Priority CDN and custom-domain support are marked as upcoming features.
+3. Competitive gaps and SSShare opportunities
+
+SSShare should not merely clone another uploader. Its differentiation should come from combining temporary media sharing, screenshot workflows, text sharing and controlled collaboration in one coherent product.
+
+Key opportunities include:
+
+Expiration measured in minutes and hours, not just days.
+Text and code sharing, alongside images.
+Screenshot annotation and automatic redaction.
+Revocable recipient-specific access.
+Encrypted uploads and optional zero-knowledge mode.
+Approval, commenting and review workflows.
+Link-level audit logs.
+Flexible expiration using time, views, downloads and inactivity.
+Automatic sensitive-data detection.
+Versioning and replacement without changing the shared URL.
+Workspace and team administration.
+Custom branding and domains.
+Regional storage and configurable retention.
+Progressive Web App and browser-extension capture.
+Webhook, REST API and command-line integrations.
+4. Product vision
+Vision statement
+
+SSShare.com enables anyone to capture, protect, share and automatically remove visual or textual information in seconds.
+
+Product principles
+Fast by default: A screenshot should be shareable in fewer than five seconds.
+Private by default: New uploads should start as unlisted and metadata-cleaned.
+Controls before upload: Users should select access and expiration rules before sending data.
+Clear lifecycle: The interface must explain exactly when and why content will disappear.
+Reversible until deletion: Owners should be able to revoke, extend or replace an item while it remains active.
+Accessible everywhere: The core experience must work on desktop, mobile and keyboard-only navigation.
+No dark patterns: Expiration, billing and privacy behavior must be understandable.
+5. Target users
+Primary personas
+5.1 Quick sharer
+
+Needs to paste a screenshot, obtain a URL immediately and have it disappear after a few minutes or hours.
+
+5.2 Developer or technical-support engineer
+
+Shares bug screenshots, logs, code snippets and temporary diagnostic information in tickets, chat and documentation.
+
+5.3 Designer and reviewer
+
+Shares mockups, collects comments, uploads revisions and needs clear version history.
+
+5.4 Privacy-conscious professional
+
+Needs password protection, automatic redaction, access logs, watermarking and reliable deletion.
+
+5.5 Team administrator
+
+Manages users, domains, retention policies, branding, storage limits, audit logs and billing.
+
+5.6 API customer
+
+Integrates uploads into an application, CI pipeline, support platform or automated testing workflow.
+
+6. Scope of content
+
+SSShare should support:
+
+Images: JPEG, PNG, WebP, GIF and AVIF
+Screenshots pasted from clipboard
+Plain and rich text
+Markdown
+Code snippets with syntax highlighting
+URLs converted into captured webpages
+PDF preview, subject to plan and security scanning
+Optional lightweight file attachments
+Multi-item collections
+Before-and-after image comparisons
+Screen recordings in a later release
+
+SVG should be disabled initially or sanitized and served with restricted content headers because unsafe SVG content can execute scripts.
+
+7. Functional requirements
+7.1 Universal uploader
+
+The upload surface must support:
+
+Drag-and-drop
+Select from device
+Clipboard paste
+Paste text
+Paste URL for webpage capture
+Multiple files
+Folder upload where browser-supported
+Camera capture on mobile
+Upload progress per item
+Cancel and retry
+Duplicate detection
+Client-side preview
+Optional client-side compression
+Background upload
+Resume for large uploads
+Keyboard shortcut, such as Ctrl/Command + V
+
+Uploading should begin only after validation and confirmation of the selected privacy settings. A “Quick Share” preference may allow returning users to use saved defaults.
+
+7.2 Screenshot editor
+
+Before publishing, users should be able to:
+
+Crop and rotate
+Draw arrows, rectangles, ellipses and freehand lines
+Add text and numbered steps
+Blur or pixelate selected areas
+Highlight elements
+Add device frames
+Add branded watermark
+Remove visible metadata such as filenames
+Undo and redo
+Compare original and edited versions
+Export the edited result without publishing
+Enhanced capability: automatic redaction
+
+The editor should identify and suggest redaction for:
+
+Email addresses
+Phone numbers
+API tokens
+Password-like values
+Credit-card patterns
+Faces
+QR codes
+IP addresses
+Names visible in notification banners
+
+Automatic detection must always show a review screen rather than silently modifying content.
+
+7.3 Text and code sharing
+
+Users should be able to create:
+
+Plain-text notes
+Markdown documents
+Code snippets
+Error-log excerpts
+Command output
+Rich-text notes
+
+Features should include:
+
+Language detection
+Syntax highlighting
+Line numbering
+Word wrap
+Copy button
+Download raw text
+Optional rendered Markdown
+Diff view between versions
+Maximum line and file-size controls
+Disable indexing by default
+Optional conversion of a snippet into a styled image
+7.4 Link and access controls
+
+Every share should support:
+
+Public
+Unlisted
+Password-protected
+Owner-only draft
+Email allowlist
+Domain allowlist
+Signed-in workspace members
+One-time access
+Recipient-specific links
+Maximum concurrent sessions
+Optional CAPTCHA after suspicious activity
+Owner revocation
+Manual pause and resume
+
+Passwords must be hashed using PHP’s password_hash() with Argon2id when available. Raw passwords must never be stored.
+
+7.5 Expiration engine
+
+SSShare should offer significantly more flexible conditions:
+
+Time-based expiration
+1 minute
+5 minutes
+10 minutes
+30 minutes
+1 hour
+6 hours
+12 hours
+1 day
+3 days
+7 days
+30 days
+Custom date and time
+No expiration for eligible plans
+Event-based expiration
+After first successful view
+After N unique views
+After N total views
+After N downloads
+After first download
+After last authorized recipient views
+After a period of inactivity
+On owner command
+At the end of a review or approval workflow
+Compound expiration
+
+Users should be able to combine rules:
+
+Delete after 24 hours or 10 views, whichever happens first
+Delete after all invited recipients view it, with a seven-day maximum
+Disable downloads after one hour but retain browser viewing for one day
+Retain comments while deleting the original media
+
+The upload form must show a human-readable summary, such as:
+
+“This image will be deleted after 10 unique views or at 6:00 PM on October 7, 2026, whichever occurs first.”
+
+7.6 Share result screen
+
+After upload, display:
+
+Large preview
+Share URL
+Direct URL, where allowed
+Markdown
+HTML
+BBCode
+QR code
+Password status
+Expiration countdown
+Remaining view/download allowance
+Copy buttons with success feedback
+Revoke button
+Extend expiration
+Replace content
+Open analytics
+Send by email
+Share through supported native device targets
+
+For burn-after-view items, the owner must receive a separate management URL so previewing the management page does not consume the share.
+
+7.7 Collections and galleries
+
+Users should be able to group multiple items into a collection with:
+
+Grid, masonry, slideshow and list layouts
+Drag-and-drop ordering
+Collection-wide password
+Per-item access overrides
+Combined expiration
+Cover image
+Title and description
+Comments
+Download-all control
+Public or private state
+Custom branding
+Custom URL
+7.8 Comments and review workflows
+
+Review functionality should include:
+
+Pin comments to coordinates on an image
+General comments
+Mentions
+Emoji reactions
+Resolve and reopen
+Anonymous comments when enabled
+Decision statuses: pending, approved and changes requested
+Email and in-app notifications
+Version comparison
+Comment export
+Comment-disable setting
+Workspace moderation
+7.9 Analytics
+
+Owners should receive privacy-conscious analytics:
+
+Total and unique views
+Downloads
+Remaining view allowance
+Last accessed date
+Referrer domain
+Country at coarse resolution
+Device category
+Browser family
+Access failures
+Password failures
+Link-copy and QR activity
+Timeline chart
+Recipient activity where explicit invitations are used
+
+Analytics must avoid invasive fingerprinting. IP addresses should be truncated or cryptographically transformed after the shortest operationally necessary retention period.
+
+7.10 Dashboard
+
+The dashboard should provide:
+
+Recent uploads
+Active, expired, scheduled and deleted tabs
+Grid and list views
+Search
+Filters by type, privacy, expiration and folder
+Sort by date, views, size and expiration
+Bulk delete
+Bulk move
+Bulk expiration update
+Storage usage
+Expiring-soon panel
+Broken or blocked-content alerts
+Favorites
+Tags
+Folders
+Collections
+Activity feed
+API usage
+Security sessions
+7.11 Versioning
+
+Owners should be able to replace content without changing its link. The system should preserve:
+
+Version number
+Upload date
+Uploader
+Optional change note
+Version-specific comments
+Restore capability
+Side-by-side comparison
+Diff for text snippets
+
+Owners may choose whether old versions remain accessible or are immediately purged.
+
+8. Modern UI and UX requirements
+8.1 Visual direction
+
+The product should use a clean, calm visual system:
+
+Neutral backgrounds
+High-contrast typography
+One strong brand accent
+Spacious cards
+Soft shadows
+Rounded but not overly playful controls
+Deliberate motion
+Clear success, warning and destructive states
+Light, dark and system themes
+
+Suggested design tokens:
+
+:root {
+    --color-primary: #625bf6;
+    --color-primary-hover: #5148e5;
+    --color-success: #16a36a;
+    --color-warning: #d97706;
+    --color-danger: #dc3c4d;
+    --color-bg: #f7f8fb;
+    --color-surface: #ffffff;
+    --color-text: #171927;
+    --color-muted: #697083;
+    --radius-card: 20px;
+    --radius-control: 12px;
+    --shadow-card: 0 12px 40px rgba(20, 24, 40, 0.08);
+}
+
+8.2 Primary upload experience
+
+The homepage should prioritize one large “share zone,” with three clearly visible modes:
+
+Screenshot or image
+Text or code
+URL capture
+
+Advanced controls should remain collapsed until requested. The default state should show only expiration and privacy, preventing the interface from feeling overloaded.
+
+8.3 UX microinteractions
+Animated drag-over state
+Paste-detected feedback
+Real-time upload progress
+Optimistic copy confirmation
+Countdown animation near expiration
+Warning before opening a burn-after-view URL
+Password-strength feedback
+Unsaved-editor warning
+Skeleton loading instead of layout jumps
+Inline errors beside the relevant control
+Undo option after soft deletion
+8.4 Accessibility
+
+The target should be WCAG 2.2 AA:
+
+Full keyboard operation
+Visible focus indicators
+Semantic landmarks
+Screen-reader labels
+Sufficient color contrast
+Reduced-motion mode
+Captions for future video content
+Non-color status indicators
+Accessible modal behavior
+Touch targets of at least 44 × 44 pixels
+9. Technical architecture
+9.1 Proposed application structure
+/public
+    index.php
+    /assets
+        /css
+        /js
+        /images
+
+/app
+    /Controllers
+    /Services
+    /Repositories
+    /Models
+    /Middleware
+    /Validators
+    /Policies
+    /Jobs
+    /Events
+    /Mail
+    /Support
+
+/config
+/database
+    /migrations
+    /seeds
+
+/storage
+    /tmp
+    /logs
+    /private
+
+/routes
+    web.php
+    api.php
+
+/bin
+    worker.php
+    cleanup.php
+    scheduler.php
+
+
+A framework such as Laravel would accelerate routing, validation, queues, mail, migrations and security. If strict plain PHP 8.1 is required, the application should still use Composer, PSR-4 autoloading, PSR-7-compatible request abstractions and a formal routing layer.
+
+9.2 Core services
+UploadService
+ImageProcessingService
+TextSnippetService
+ExpirationService
+AccessPolicyService
+PasswordService
+StorageService
+UrlSigningService
+AnalyticsService
+ModerationService
+RedactionService
+NotificationService
+SubscriptionService
+AuditLogService
+WebhookService
+9.3 Storage strategy
+
+Binary objects should not be stored directly in MySQL. MySQL should hold metadata and object keys.
+
+Recommended flow:
+
+Upload to private temporary storage.
+Verify actual MIME signature.
+Scan for malware.
+Decode and inspect image.
+Strip metadata.
+Generate required derivatives.
+Move into private object storage.
+Serve through an authorization endpoint or short-lived signed URL.
+Delete original temporary data.
+Queue expiration and cleanup events.
+10. MySQL data model
+
+Core tables should include:
+
+users
+workspaces
+workspace_members
+plans
+subscriptions
+uploads
+upload_versions
+upload_files
+share_links
+access_policies
+expiration_rules
+folders
+collections
+collection_items
+tags
+upload_tags
+comments
+comment_mentions
+view_events
+download_events
+audit_logs
+api_keys
+api_usage
+webhooks
+webhook_deliveries
+notifications
+abuse_reports
+moderation_actions
+billing_events
+user_sessions
+password_attempts
+deletion_jobs
+
+
+The uploads table should include:
+
+id
+uuid
+owner_user_id
+workspace_id
+content_type
+title
+description
+status
+visibility
+storage_bytes
+current_version_id
+created_at
+updated_at
+soft_deleted_at
+purge_at
+
+
+The share_links table should include:
+
+id
+upload_id
+public_id
+custom_slug
+password_hash
+access_mode
+view_limit
+download_limit
+view_count
+download_count
+starts_at
+expires_at
+last_accessed_at
+revoked_at
+created_at
+
+
+The expiration_rules table should support multiple rules per link:
+
+id
+share_link_id
+rule_type
+operator
+threshold_integer
+threshold_datetime
+priority
+created_at
+
+
+All externally visible objects should use non-sequential random identifiers, never auto-increment IDs.
+
+11. API requirements
+11.1 Versioned REST API
+POST   /api/v1/uploads
+GET    /api/v1/uploads
+GET    /api/v1/uploads/{id}
+PATCH  /api/v1/uploads/{id}
+DELETE /api/v1/uploads/{id}
+
+POST   /api/v1/uploads/{id}/links
+PATCH  /api/v1/links/{id}
+DELETE /api/v1/links/{id}
+
+POST   /api/v1/folders
+GET    /api/v1/folders
+
+POST   /api/v1/collections
+GET    /api/v1/collections/{id}
+
+GET    /api/v1/usage
+POST   /api/v1/webhooks
+
+
+API capabilities should include:
+
+Idempotency keys
+Form-data and resumable uploads
+JSON error envelopes
+Pagination
+Filtering
+Rate-limit headers
+Scoped API keys
+Key expiration
+Immediate key revocation
+Webhook-signature verification
+Sandbox keys
+OpenAPI specification
+PHP, JavaScript and cURL examples
+11.2 Suggested upload request
+POST /api/v1/uploads
+Authorization: Bearer sss_live_xxxxxxxxx
+Idempotency-Key: 31ac48ae-4fb7-42b6-a2d4-bfbcc97ef712
+Content-Type: multipart/form-data
+
+
+Supported fields:
+
+file
+content
+content_type
+title
+visibility
+password
+expires_at
+expires_in
+view_limit
+download_limit
+burn_after_view
+inactive_after
+folder_id
+collection_id
+custom_slug
+strip_metadata
+watermark
+disable_download
+
+12. Security requirements
+
+SSShare should implement:
+
+TLS everywhere
+Secure, HttpOnly and SameSite cookies
+CSRF protection
+Content Security Policy
+Strict MIME validation
+Image decoding before acceptance
+Malware scanning
+Parameterized SQL only
+HTML sanitization
+Output encoding
+Rate limiting by account, key and IP
+Brute-force protection
+Argon2id password hashing
+API-key hashing at rest
+Encryption of sensitive database fields
+Signed storage URLs
+Private storage buckets
+Account session management
+Two-factor authentication
+Backup encryption
+Immutable security audit events
+Abuse-report workflow
+Legal-takedown workflow
+Automated expiration verification
+
+Direct URLs for private content must not bypass password or access checks. Where direct embeds are enabled, the system should issue short-lived signed URLs or streaming authorization responses.
+
+13. Privacy requirements
+Strip EXIF and location metadata by default.
+Never publicly index unlisted content.
+Set noindex, nofollow, noarchive on non-public pages.
+Allow owners to delete content immediately.
+Publish clear deletion behavior.
+Separate operational logs from analytics.
+Minimize IP retention.
+Offer analytics opt-out.
+Allow data export and account deletion.
+Provide configurable cookie consent where legally required.
+Do not use uploaded content for model training without explicit, separate consent.
+Make region and retention controls available to business customers.
+Record deletion completion, without retaining deleted content.
+
+An advanced “zero-knowledge share” mode can encrypt files in the browser using Web Crypto. The decryption key should remain in the URL fragment, which browsers do not send to the server. This mode must clearly explain that server-side preview generation, malware inspection, content moderation and recovery may be limited.
+
+14. Administration portal
+
+Administrators should have:
+
+User and workspace search
+Storage and bandwidth monitoring
+Abuse queue
+Content-report review
+Hash-based blocklist
+Upload-rate monitoring
+Plan and quota management
+Refund and subscription status
+Feature flags
+Maintenance mode
+Background-job monitoring
+Failed-cleanup queue
+Webhook-delivery inspection
+Email-template management
+Legal-request logging
+System announcements
+Audit logging for every admin action
+
+Admin previews of reported content must be restricted, logged and protected from accidental downloading.
+
+15. Non-functional requirements
+Performance
+Homepage interactive within 2.5 seconds on standard mobile networks.
+Upload acknowledgement within 500 ms after the server accepts a request.
+Share page server response under 300 ms at the 95th percentile, excluding media transfer.
+Asynchronous processing for heavy transformations.
+CDN delivery for public derivatives.
+Lazy loading for galleries.
+Database indexes for public IDs, expiration times, owners and link status.
+Reliability
+Target availability: 99.9% after general availability.
+Idempotent cleanup jobs.
+Automatic retries with exponential backoff.
+Daily database backup.
+Object-storage versioning where appropriate.
+Restore testing every quarter.
+Expiration jobs should be delayed by no more than five minutes.
+Scalability
+
+The architecture should support horizontal PHP-FPM instances, separate worker pools, MySQL read replicas, Redis-backed queues and S3-compatible object storage without redesigning the public API.
+
+16. Monetization proposal
+Free
+Anonymous sharing
+1 GB registered storage
+25 MB per file
+Text and image sharing
+Expiration from 1 minute to 30 days
+Password protection
+Burn-after-view
+Basic folders
+Limited API usage
+Basic screenshot annotation
+Plus
+10 GB storage
+100 MB per item
+No ads
+Custom expiration
+Version history
+Advanced annotations
+Basic analytics
+Custom slugs
+Longer retention
+Pro
+100 GB storage
+Unlimited ordinary API uploads under fair-use limits
+Full analytics
+Custom domains
+Branded collections
+Webhooks
+Automated redaction
+Public galleries
+Advanced access rules
+Business
+Team workspaces
+Role-based access control
+SSO/SAML
+Audit exports
+Regional storage
+Workspace retention policies
+500 GB or more
+Priority processing
+Dedicated support
+Service-level agreement
+17. Product roadmap
+Phase 1: MVP
+Anonymous and registered upload
+Clipboard paste
+Images, text and code
+Share and direct links
+Password protection
+Minute/hour/day expiration
+Burn-after-view
+View limits
+Metadata removal
+Basic folders
+Dashboard
+Manual revocation
+Basic REST API
+Responsive light/dark UI
+Automated deletion worker
+Abuse reporting
+Phase 2: Differentiation
+Screenshot annotation
+Auto-redaction suggestions
+Collections
+Comments
+Version history
+QR sharing
+Analytics
+Webhooks
+Custom slugs
+Browser extension
+PWA
+Resumable uploads
+Text-to-image output
+Phase 3: Teams and revenue
+Workspaces
+Invitations
+Roles
+Approval workflows
+Custom domains
+Branding
+SSO
+Audit logs
+Regional storage
+Business retention policies
+Subscription billing
+Phase 4: Advanced platform
+Zero-knowledge encrypted sharing
+Screen recording
+OCR search
+Desktop capture application
+AI-assisted redaction
+Smart screenshot summaries
+MCP integration
+Integrations with Teams, Slack, Jira, GitHub and support desks
+18. Success metrics
+
+The launch dashboard should track:
+
+Upload completion rate
+Median time from paste to copied link
+Share-link open rate
+Percentage using expiration
+Percentage using passwords
+Upload failure rate
+Processing time
+Automatic-deletion success rate
+Seven-day and 30-day registered-user retention
+Free-to-paid conversion
+Storage cost per active user
+API adoption
+Abuse-report rate
+False-positive moderation rate
+Support tickets per 1,000 uploads
+Net Promoter Score
+Accessibility defect count
+
+Initial targets:
+
+95% successful uploads
+Median paste-to-link time below five seconds
+99.99% expiration-job completion
+Fewer than one critical privacy incident
+30% of shares using a non-default expiration rule
+20% registered-user 30-day retention
+19. Acceptance criteria for MVP
+
+The MVP is ready when:
+
+A guest can paste a screenshot and receive a share URL without registration.
+A user can choose expiration as short as one minute.
+Password-protected files cannot be retrieved through an alternate direct URL.
+Burn-after-view access is atomic under concurrent requests.
+Metadata is removed and verified before storage.
+Expired content is inaccessible and physically queued for deletion.
+Owners can revoke links instantly.
+Text and code can be shared with syntax highlighting.
+All forms work on keyboard and mobile.
+API requests return consistent structured errors.
+Dangerous file signatures and spoofed MIME types are rejected.
+Workspace and admin actions produce audit records.
+Cleanup failures are visible in the administration portal.
+Automated tests cover access, expiration, revocation and deletion.
+The public share page meets WCAG 2.2 AA requirements.
+Final recommendation
+
+SSShare should position itself as“the fastest private sharing workspace for screenshots, text and temporary visual information”, rather than competing solely as another image host. The strongest early differentiators should be minute-level expiration, text and code sharing, a polished screenshot editor, automatic redaction suggestions, compound deletion rules and transparent access logs.
+
+The PRD improves upon the researched product by broadening the supported content types, making access policies significantly more expressive, adding reviewer collaboration and treating deletion as a verifiable product capability rather than a background convenience. The design should remain simple at first glance, with advanced controls progressively disclosed so the additional power does not harm the quick-share experience.

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SSShare</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<main>
+    <h1>SSShare</h1>
+    <button id="capture" class="primary">Capture visible tab</button>
+    <label>Delete after
+        <select id="expires">
+            <option value="10m">10 minutes</option><option value="1h">1 hour</option><option value="1d">1 day</option><option value="7d">7 days</option>
+        </select>
+    </label>
+    <label class="check"><input type="checkbox" id="burn"> Delete after first view</label>
+    <p id="status" role="status" aria-live="polite"></p>
+    <div id="result" hidden>
+        <label for="link">Share link</label>
+        <input id="link" readonly>
+        <button id="copy">Copy</button>
+        <a id="manage" target="_blank" rel="noopener">Manage</a>
+    </div>
+    <p class="small"><a href="options.html" target="_blank">Settings</a></p>
+</main>
+<script type="module" src="popup.js"></script>
+</body>
+</html>

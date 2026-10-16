@@ -1,0 +1,1270 @@
+Product Requirements Document: Invite.com
+
+Product category: Online invitations, RSVP management, attendance polling and real-time guest tracking
+ Proposed technology: PHP 8.1, MySQL 8, JavaScript, HTML5 and modern CSS
+ Primary channels: Responsive web application, Progressive Web App, email, SMS and WhatsApp sharing
+ Document status: Product concept and implementation-ready PRD
+ Working product name: Invite.com
+
+Important naming note: Before development or branding investment, verify ownership and trademark availability for Invite.com. The domain may already be registered even if it does not appear prominently in search results. A fallback brand and domain should be prepared.
+
+1. Executive Summary
+
+Invite.com will be a modern invitation and event-management platform where individuals, families, event planners and businesses can:
+
+Create a beautiful digital invitation.
+Add event details, schedules, maps, media and RSVP questions.
+Invite guests using a public link, private personalized link, QR code, email, SMS or WhatsApp.
+Let guests respond with Attending, Not Attending or Maybe without creating an account.
+Track responses, headcount, plus-ones, meal choices and pending invitations in real time.
+Send reminders and updates to selected guest segments.
+Check guests in using QR codes.
+Produce reports for hosts, caterers, venues and event planners.
+Manage multi-day and multi-function events from one dashboard.
+
+The product should combine the simplicity and social experience of Partiful, the invitation designs of Greetings Island and Evite, the advanced guest management of RSVPify, and the multi-function event capabilities of Invyt. Partiful currently provides interactive invitations, RSVP tracking, date polling, guest questions, shared albums and group updates, while RSVPify extends the model with guest segmentation, sub-events, payments, seating and event communication.
+
+The competitive opportunity is to place these capabilities in one fast, mobile-first product with better privacy, multilingual support, India-friendly sharing, accessible design, transparent pricing and significantly stronger reporting.
+
+2. Competitive Product Summary
+2.1 Capabilities already expected by users
+
+Modern invitation products have established the following as baseline expectations:
+
+Customizable digital invitation templates
+Public and private invitation links
+Attending, declined, maybe and pending statuses
+Real-time RSVP dashboards
+Plus-one and family-group management
+Custom RSVP questions
+Meal choices and dietary restrictions
+RSVP deadlines
+Email or messaging reminders
+QR-code sharing
+CSV or Excel guest import and export
+Mobile-friendly guest experience
+Guest messaging and event updates
+Map, directions and calendar integration
+Invitation design upload
+No-account guest response
+
+Greetings Island offers templates, uploaded designs, real-time tracking, plus-ones, meal choices, custom questions, reminders and spreadsheet export. Evite supports RSVP deadlines, plus-one controls, reminders, messaging and real-time response tracking.
+
+2.2 Advanced competitive capabilities
+
+Premium competitors increasingly provide:
+
+Multiple sub-events under one main event
+Different guest access for each sub-event
+Seating-chart management
+QR-code check-in
+Ticketing, donations and payments
+Automated reminder workflows
+Guest segmentation
+Custom branded event websites
+Shared photo albums
+Polls and questionnaires
+Table, transport and accommodation management
+AI-generated invitation wording
+AI-assisted invitation design
+Event budgets and planning tasks
+
+RSVPify supports branded event pages, payments, seating charts, automated reminders, sub-events, segmentation and QR check-in. Pinvite combines live RSVP tracking, AI-assisted wording, a drag-and-drop website builder, seating, accommodation, transport, budgets and task management.
+
+2.3 Emerging differentiators
+
+Newer platforms are introducing:
+
+Apple Wallet and Google Wallet event passes
+Instagram-style invitation stories
+Voice-message guest books
+Live event photo walls
+Song recommendations
+Gift reservations
+Personal QR tickets
+Animated envelopes
+AI-generated backgrounds
+Vendor-ready PDF reports
+Adult and child headcount classification
+Family roles and co-host permissions
+
+InvitiApp includes wallet passes, unique QR codes, guest-import/export, gift reservations, song suggestions and guest message walls. DigitalRSVPs adds AI-generated invitation backgrounds, voice notes, live photo galleries, meal preferences and vendor-oriented reports.
+
+3. Product Vision
+Vision statement
+
+Invite.com will make creating, distributing and managing an invitation as easy as sending a message, while giving hosts complete, real-time control over attendance and event operations.
+
+Product promise
+
+Create beautifully. Share anywhere. Know exactly who is coming.
+
+Strategic differentiators
+
+Invite.com should win through the following combination:
+
+Two-minute event creation
+No-login guest RSVP
+Private-by-default guest information
+Powerful, real-time host dashboard
+WhatsApp-first sharing
+Multi-event and Indian celebration support
+Multilingual and right-to-left invitation support
+Best-in-class mobile experience
+Transparent pricing
+Modular features that remain simple for casual hosts
+
+India-focused platforms already emphasize WhatsApp distribution, support for functions such as Haldi, Garba and receptions, and independent tracking for each sub-event, indicating the value of regional event structures and sharing workflows.
+
+4. Goals and Non-Goals
+4.1 Product goals
+Primary goals
+Allow a host to publish an invitation in under two minutes.
+Allow a guest to RSVP in under 20 seconds.
+Show updated RSVP information to the host within two seconds.
+Reduce the need for manual spreadsheets and individual follow-ups.
+Support casual events, weddings, corporate events and community gatherings.
+Provide an elegant experience on low-end mobile devices and slower networks.
+Support both public-link events and strictly controlled private events.
+Establish Invite.com as a privacy-conscious alternative to ad-heavy invitation products.
+Business goals
+Convert free users through premium designs and advanced management features.
+Monetize through event-based plans and optional subscriptions.
+Create a planner and agency tier with white-label capabilities.
+Support high-margin add-ons such as SMS credits, custom domains and AI design generation.
+Encourage organic acquisition through shared invitation pages, without intrusive branding.
+4.2 Non-goals for initial release
+
+The first release will not attempt to provide:
+
+Full venue-management software
+Full hotel-room reservation infrastructure
+A general social network
+Video-conferencing infrastructure
+Complex professional conference scheduling
+Native iOS and Android apps
+Large-scale event ticket marketplaces
+Full accounting or enterprise-resource planning
+
+These can be integrated or added after core RSVP workflows are stable.
+
+5. Target Users
+5.1 Casual Host
+
+Creates birthdays, house parties, dinners, reunions or celebrations.
+
+Needs:
+
+Quick setup
+Attractive invitation
+WhatsApp sharing
+Yes, No or Maybe response
+Guest headcount
+Simple reminders
+No subscription complexity
+5.2 Wedding or Family Event Host
+
+Manages ceremonies and multiple related functions.
+
+Needs:
+
+Multiple sub-events
+Family groups
+Adult and child counts
+Plus-one limits
+Meal preferences
+Seating
+Accommodation and transport questions
+Location and schedule details
+Multiple languages
+Co-host access
+5.3 Corporate Event Organizer
+
+Runs conferences, employee events, launches and client meetings.
+
+Needs:
+
+Custom branding
+Controlled guest lists
+Guest segmentation
+Registration approval
+Reporting and exports
+QR check-in
+Roles and permissions
+Audit logs
+Data retention controls
+5.4 Event Planner or Agency
+
+Manages events for several clients.
+
+Needs:
+
+Multiple workspaces
+Reusable templates
+White-label branding
+Team permissions
+Client approval workflow
+Custom domains
+Event duplication
+Billing and usage reports
+5.5 Guest
+
+Receives an invitation and responds from a phone.
+
+Needs:
+
+No mandatory account
+Fast page loading
+Clear event details
+Simple RSVP controls
+Ability to update a response
+Calendar and map links
+Privacy and trust
+Confirmation after submission
+6. Core User Journeys
+6.1 Host creates an event
+User selects Create Invitation.
+User chooses an event category or starts from blank.
+User selects a template.
+User enters title, date, time, timezone, location and description.
+User configures RSVP options.
+User previews desktop and mobile layouts.
+User publishes the invitation.
+System generates:
+Public or private invitation link
+QR code
+Social preview image
+Email-sharing option
+WhatsApp-sharing message
+6.2 Guest responds
+Guest opens a shared or personalized link.
+Invitation opens without login.
+Guest selects:
+Attending
+Not attending
+Maybe
+Guest enters name and optional contact information.
+Guest adds allowed companions.
+Guest answers conditional questions.
+Guest submits RSVP.
+System shows confirmation and offers:
+Add to calendar
+Open map
+Save to wallet
+Edit RSVP
+Share permitted event information
+6.3 Host monitors real-time responses
+Dashboard receives an update.
+Counters change without a full-page refresh.
+Guest appears in the response list.
+Host filters guests by status or question response.
+Host sends a reminder to pending guests.
+Host exports a report or shares it with a co-host.
+6.4 Guest checks in
+Guest presents the personal QR pass.
+Host or authorized staff scans it.
+System validates the invitation.
+Guest is marked as checked in.
+Dashboard updates the live arrival count.
+Duplicate or invalid scans produce a clear warning.
+7. Functional Requirements
+7.1 Authentication and Accounts
+Host authentication
+Email and password
+Passwordless email login
+Google and Microsoft sign-in
+Optional phone OTP
+Email verification
+Password reset
+Multi-factor authentication for premium and enterprise accounts
+Active-session management
+Device and login history
+Guest authentication
+
+Guests must not be forced to create an account.
+
+Private events may use:
+
+Personalized tokenized links
+Guest surname and access-code verification
+Email OTP
+Phone OTP
+QR-code access
+7.2 Invitation Builder
+
+The builder should use modular content blocks:
+
+Hero image or video
+Animated envelope
+Event title
+Host names
+Date and time
+Countdown
+Venue and map
+Event description
+Schedule or itinerary
+Dress code
+Gallery
+RSVP form
+Menu
+Accommodation
+Transport
+Frequently asked questions
+Gift registry
+Payment or contribution link
+Contact information
+Guest message wall
+Social links
+Custom HTML-free text block
+Builder capabilities
+Drag-and-drop block ordering
+Inline text editing
+Color and typography controls
+Mobile and desktop previews
+Undo and redo
+Draft auto-save
+Version history
+Duplicate section
+Hide section on mobile or desktop
+Scheduled publishing
+Reusable brand kits
+Custom CSS for agency accounts only
+Safe image cropping
+Accessibility contrast warnings
+7.3 Template System
+
+Templates should be categorized by:
+
+Wedding
+Engagement
+Birthday
+Baby shower
+Anniversary
+Graduation
+Festival
+Religious or cultural celebration
+Corporate event
+Conference
+Reunion
+Community event
+Memorial
+Dinner
+Virtual event
+Save the date
+
+Every template should support:
+
+Color variation
+Typeface variation
+Image replacement
+Content-block rearrangement
+Motion reduction
+Mobile optimization
+Multilingual text
+7.4 RSVP Form Builder
+Standard response options
+Attending
+Not attending
+Maybe
+Waitlist
+Interested
+Custom labels defined by host
+Question types
+Single choice
+Multiple choice
+Short text
+Long text
+Number
+Date
+Dropdown
+Rating
+Image choice
+Consent checkbox
+File upload
+Meal selection
+Dietary restrictions
+Transport requirement
+Accommodation requirement
+Song request
+Conditional logic
+
+Examples:
+
+Show meal choice only when the guest is attending.
+Ask for a decline reason only when the guest selects not attending.
+Ask for child ages only when children are included.
+Show transport pickup options only to selected guest groups.
+Show separate questions for each sub-event.
+7.5 Guest and Household Management
+Individual guest records
+Families or household groups
+Couples and organizations
+Adult and child headcount
+Configurable plus-one limit
+Named plus-ones
+Unnamed companion slots
+Guest tags
+VIP status
+Notes visible only to hosts
+Import from CSV or Excel
+Duplicate detection
+Bulk edit
+Bulk status update
+Custom guest fields
+Per-guest language
+Per-guest sub-event access
+Guest merge and split
+Suppression or do-not-contact status
+7.6 Event and Sub-Event Management
+
+A main event may include multiple functions, such as:
+
+Ceremony
+Reception
+Dinner
+After-party
+Haldi
+Mehndi
+Sangeet
+Corporate workshop
+Networking session
+Awards function
+
+Each sub-event must have independent:
+
+Date and time
+Venue
+Capacity
+Guest eligibility
+RSVP status
+Questions
+Reminder schedule
+Check-in list
+Reporting
+7.7 Polling
+
+Invite.com should provide dedicated polls as well as RSVP questions.
+
+Poll types
+Date availability poll
+Venue poll
+Menu poll
+General multiple-choice poll
+Ranked-choice poll
+Anonymous poll
+Named poll
+Availability matrix
+Yes, No or Maybe poll
+Poll controls
+Start and close dates
+Multiple selections
+Result visibility
+Anonymous responses
+Allow response changes
+Maximum choices
+Host-selected winning option
+Automatic selection based on majority
+Tie handling
+
+Partiful already offers date polling and guest questionnaires, while simple tools such as VoteGenerator emphasize no-login Yes, No or Maybe responses and live response totals.
+
+7.8 Real-Time Dashboard
+Summary cards
+Total invited
+Invitations delivered
+Invitations opened
+Attending
+Not attending
+Maybe
+Pending
+Waitlisted
+Total expected headcount
+Adult count
+Child count
+Plus-one count
+Checked-in count
+No-show count
+Reporting views
+RSVP trend over time
+Response status chart
+Sub-event attendance
+Meal-choice distribution
+Dietary summary
+Guest-source performance
+Delivery and open status
+Reminder effectiveness
+Check-in timeline
+Capacity utilization
+Geographic guest distribution where consent permits
+Dashboard interactions
+Real-time updates using Server-Sent Events or controlled AJAX polling
+Search
+Sort
+Saved filters
+Column customization
+Bulk actions
+Export current view
+Share read-only report link
+Scheduled email report
+7.9 Invitation Distribution
+Supported channels
+Public link
+Personalized link
+WhatsApp
+Email
+SMS
+QR code
+Copy link
+Social sharing
+Printed card with QR
+Embedded RSVP widget
+Website integration
+Email features
+Branded email template
+Personalized greeting
+Test email
+Scheduled sending
+Delivery tracking
+Bounce status
+Unsubscribe handling
+Rate limiting
+Reminder sequences
+WhatsApp strategy
+
+The initial implementation should:
+
+Generate personalized WhatsApp share messages.
+Open the native WhatsApp share flow.
+Track link opens using tokenized URLs.
+
+Future implementation may add an approved WhatsApp Business provider for transactional templates, subject to provider policies and cost.
+
+7.10 Notifications and Automation
+
+Hosts can configure automation rules such as:
+
+Send confirmation immediately after RSVP.
+Remind pending guests seven days before the deadline.
+Send a final reminder 24 hours before the deadline.
+Notify guests when venue information changes.
+Send directions on the event day.
+Thank attendees after the event.
+Request feedback after check-in.
+Notify hosts when capacity reaches a threshold.
+Move guests from waitlist when places become available.
+
+Notifications must honor timezone, quiet hours, user consent and communication preferences.
+
+7.11 QR Codes and Check-In
+Unique QR code for each guest or household
+General invitation QR code
+QR scanner using device camera
+Manual name search
+Offline-tolerant check-in queue
+Duplicate-scan warning
+Check-in reversal
+Check-in permissions by sub-event
+Arrival timestamp
+Staff member identification
+Door or entry-point tracking
+Live occupancy count
+7.12 Seating Management
+
+Phase-two capabilities:
+
+Visual table layout
+Drag-and-drop guest placement
+Table capacity
+Household placement
+Seating conflicts
+Accessibility requirements
+Meal summary by table
+Printable seating report
+Guest seat lookup
+Table QR code
+7.13 Media and Memories
+Host photo gallery
+Guest uploads
+Moderated event album
+Reactions and comments
+Downloadable album
+Slideshow mode
+QR poster for photo contribution
+Video-message or voice-message guest book
+Storage-duration indication
+Host moderation tools
+Reporting and abuse controls
+7.14 Payments, Gifts and Ticketing
+
+Optional premium module:
+
+Free or paid ticket types
+Capacity per ticket
+Donation collection
+Contribution requests
+Gift-registry links
+Gift reservation
+Refund status
+Payment receipts
+Discount and promo codes
+Payment reconciliation export
+
+Payment card data must not be stored directly. Use a payment provider with hosted checkout and tokenization.
+
+7.15 Collaboration
+Event owner
+Administrator
+Editor
+Guest manager
+Check-in staff
+Viewer
+Client approver
+
+Permission examples:
+
+Check-in staff cannot export guests.
+Editors cannot change billing.
+Viewers cannot modify RSVP status.
+Client approvers may add comments but cannot publish.
+8. Enhanced Features That Can Make Invite.com Better
+8.1 Smart RSVP Forecasting
+
+Use historical response patterns and current activity to estimate:
+
+Expected final attendance
+Likely number of pending guests who will accept
+Expected no-show range
+Catering headcount recommendation
+Ideal reminder timing
+
+Forecasts must be clearly labeled as estimates and never replace actual RSVP numbers.
+
+8.2 RSVP Change History
+
+For every guest, show:
+
+Original response
+Changed response
+Change timestamp
+Who made the change
+Previous plus-one count
+Previous meal choice
+
+This prevents confusion when guests repeatedly update their plans.
+
+8.3 Privacy-Preserving Guest List
+
+Hosts can choose:
+
+Hidden guest list
+Show only total attendance
+Show first names only
+Show accepted guests
+Show household names
+Require consent before public display
+
+Privacy by default can distinguish Invite.com from platforms that make attendance socially visible.
+
+8.4 Host Command Center
+
+A cross-event dashboard should show:
+
+Upcoming events
+Pending approvals
+Recent responses
+Delivery failures
+Capacity warnings
+Scheduled reminders
+Outstanding tasks
+Payment totals
+Storage usage
+8.5 AI Assistant
+
+Subject to a separate AI service and privacy review:
+
+Generate invitation wording
+Suggest RSVP questions
+Translate invitation text
+Recommend themes
+Create reminder messages
+Summarize dietary restrictions
+Detect duplicate guests
+Convert informal event notes into a structured schedule
+
+AI features must always allow manual editing and must not send messages automatically without host approval.
+
+8.6 India-Focused Enhancements
+WhatsApp-first sharing
+Multi-function wedding templates
+Hindi and regional-language support
+Family-level invitations
+Separate vegetarian, vegan, Jain and allergy-sensitive meal preferences
+Baraat or transport coordination
+Airport and railway pickup details
+Multiple venue management
+Local date and time formatting
+UPI contribution links through an approved payment provider
+Relationship labels such as family, relatives, friends and colleagues
+9. Information Architecture
+Public website
+Home
+Features
+Templates
+Event categories
+Pricing
+Examples
+Help center
+Blog
+Privacy
+Terms
+Sign in
+Create invitation
+Authenticated application
+Dashboard
+Events
+Templates
+Contacts
+Workspaces
+Reports
+Billing
+Brand kit
+Integrations
+Settings
+Event workspace
+Overview
+Invitation
+Event details
+Guest list
+RSVP form
+Polls
+Messages
+Sub-events
+Seating
+Check-in
+Media
+Reports
+Automations
+Collaborators
+Settings
+10. UI and UX Requirements
+10.1 Design direction
+
+The design should feel:
+
+Modern
+Celebratory
+Calm
+Premium but approachable
+Mobile-first
+Uncluttered
+Fast
+Trustworthy
+10.2 Visual system
+Suggested palette
+Primary: deep violet or indigo
+Accent: coral, rose or warm gold
+Success: accessible green
+Warning: amber
+Error: red
+Neutral: slate and off-white
+
+Each invitation template can use its own palette, while the management application uses a consistent product design system.
+
+Typography
+Modern sans-serif for application UI
+Display serif and decorative fonts for invitations
+Limit each template to two font families
+Use self-hosted or properly licensed fonts
+Provide fallbacks for multilingual scripts
+Components
+Rounded cards
+Clear status chips
+Skeleton loaders
+Empty states with recommended actions
+Sticky mobile action area
+Contextual help
+Toast notifications with persistent error details
+Accessible modal dialogs
+Autosave indicator
+Command search for advanced users
+10.3 Guest UX principles
+RSVP action visible without unnecessary scrolling
+No forced account
+No advertisements inside invitations
+No dark patterns
+No unrelated marketing opt-in
+One question per screen option for complex forms
+Form progress indicator
+Save partial response when appropriate
+Clear confirmation receipt
+Easy response editing
+10.4 Host UX principles
+Guided setup checklist
+Progressive disclosure
+Sensible defaults
+Bulk operations for large lists
+Preview before publish
+Undo for destructive actions
+Filters retained between sessions
+Mobile dashboard for quick checks
+Desktop-optimized guest management for large events
+10.5 Accessibility
+
+Invite.com should target WCAG 2.2 AA:
+
+Keyboard-accessible workflows
+Visible focus indicators
+Screen-reader labels
+Minimum contrast ratios
+Reduced-motion mode
+Accessible error summaries
+Logical heading structure
+Captions or text alternatives for media
+Touch targets of at least 44 by 44 CSS pixels
+Language attributes on invitation pages
+Right-to-left layout support
+11. Technical Architecture
+11.1 Backend
+
+Language: PHP 8.1
+
+Recommended architecture:
+
+MVC or modular service architecture
+Composer autoloading
+PSR-4 structure
+PSR-7-compatible request handling where practical
+Service and repository layers
+Form-request validation
+Central authorization policies
+Event-driven notification jobs
+Database migrations
+Environment-based configuration
+
+A mature PHP framework compatible with PHP 8.1 is preferable to building authentication, routing and security from scratch.
+
+11.2 Database
+
+Database: MySQL 8 with utf8mb4
+
+Primary tables
+users
+user_profiles
+workspaces
+workspace_members
+events
+event_settings
+sub_events
+venues
+invitation_templates
+invitations
+invitation_sections
+invitation_versions
+guest_groups
+guests
+guest_contacts
+guest_tags
+event_guests
+sub_event_guests
+rsvp_responses
+rsvp_response_history
+rsvp_questions
+rsvp_question_options
+rsvp_answers
+polls
+poll_options
+poll_responses
+messages
+message_recipients
+notification_jobs
+notification_logs
+checkins
+qr_tokens
+seating_tables
+seat_assignments
+media_assets
+guest_media
+payments
+tickets
+audit_logs
+api_tokens
+webhook_deliveries
+subscriptions
+usage_records
+Data-design requirements
+Store all timestamps in UTC.
+Store event timezone separately.
+Use immutable event and guest UUIDs for public references.
+Do not expose sequential database IDs.
+Index event, workspace, status and token lookup fields.
+Maintain foreign-key integrity.
+Use soft deletion only where recovery or auditing is required.
+Anonymize personal data when a valid deletion request is completed.
+11.3 Frontend
+
+Technologies:
+
+Semantic HTML5
+CSS custom properties
+Modern responsive CSS
+Vanilla JavaScript or lightweight modular JavaScript
+Fetch API
+Web Components where reusable
+Server-rendered pages with progressive enhancement
+PWA manifest and service worker
+
+Avoid making core guest RSVP functionality dependent on a heavy JavaScript application. The form should remain usable if non-essential scripts fail.
+
+11.4 Real-time updates
+
+Recommended progression:
+
+MVP
+AJAX polling every 10 to 20 seconds while dashboard is active
+Immediate dashboard refresh after host actions
+Phase two
+Server-Sent Events for unidirectional RSVP dashboard updates
+Scale phase
+Redis pub/sub or managed event delivery
+Dedicated real-time gateway if traffic requires it
+11.5 Background processing
+
+Use queued job workers for:
+
+Email sending
+SMS sending
+Spreadsheet imports
+Report generation
+Image resizing
+QR generation
+Reminder scheduling
+Webhook delivery
+Data export
+Media moderation tasks
+11.6 Storage
+Object storage for images and uploaded media
+CDN distribution
+Signed URLs for private media
+Responsive image variants
+Virus and file-type validation
+Configurable retention periods
+12. API Requirements
+
+REST endpoints should be versioned:
+
+/api/v1/events
+/api/v1/events/{event_uuid}
+/api/v1/events/{event_uuid}/guests
+/api/v1/events/{event_uuid}/responses
+/api/v1/events/{event_uuid}/reports
+/api/v1/invitations/{slug}
+/api/v1/invitations/{slug}/rsvp
+/api/v1/polls/{poll_uuid}/responses
+/api/v1/checkin/validate
+/api/v1/checkin/complete
+
+API principles
+JSON requests and responses
+Token-based authentication
+Workspace-scoped authorization
+Idempotency keys for payments, invitations and RSVP submission
+Rate limiting
+Consistent error format
+Pagination
+Field filtering
+Webhook signatures
+API audit logs
+API documentation
+Webhooks
+
+Premium integrations should receive events such as:
+
+guest.created
+invitation.sent
+invitation.opened
+rsvp.created
+rsvp.updated
+guest.checked_in
+payment.completed
+event.capacity_reached
+13. Security and Privacy Requirements
+Security
+HTTPS everywhere
+Secure, HttpOnly and SameSite cookies
+CSRF protection
+Prepared statements or ORM parameter binding
+Output escaping
+Content Security Policy
+File upload validation
+Malware scanning where available
+Login rate limiting
+Credential-stuffing protection
+Password hashing using Argon2id or bcrypt
+Token hashing in the database
+Expiring invitation management links
+Role-based access control
+Audit trail for sensitive operations
+Encrypted backups
+Secrets outside source control
+Privacy
+Collect the minimum necessary guest data.
+Clearly identify which fields are optional.
+Keep guest lists private by default.
+Do not sell guest contact information.
+Do not send marketing messages to guests without consent.
+Provide configurable data retention.
+Support host and guest data-export requests.
+Support deletion and anonymization workflows.
+Record consent for custom host agreements.
+Make public invitation indexing opt-in, not default.
+14. Non-Functional Requirements
+Performance
+Largest Contentful Paint below 2.5 seconds on common mobile connections
+RSVP submission response below one second under normal load
+Dashboard real-time update latency below two seconds in enhanced mode
+Optimized invitation image delivery
+Lazy-load non-critical media
+Cache public templates and invitation assets
+Availability and reliability
+Initial availability target: 99.9%
+Automated daily backups
+Point-in-time database recovery where supported
+Retry queues for failed notifications
+Idempotent RSVP submissions
+Graceful degradation when email or SMS providers fail
+Status monitoring and alerting
+Scalability
+
+Initial design targets:
+
+100,000 registered hosts
+1,000,000 guest records
+10,000 concurrent invitation viewers
+Burst handling for high-profile event sharing
+Horizontal application-server scaling
+Read caching for public invitations
+Browser support
+Current and previous major versions of Chrome, Edge, Firefox and Safari
+Common Android browsers
+Mobile Safari
+Basic RSVP compatibility on older devices
+15. Analytics and Success Metrics
+Acquisition
+Visitor-to-registration conversion
+Template-preview-to-event-creation conversion
+Organic invitation referral traffic
+Cost per acquired host
+Activation
+Percentage of users who publish an event
+Median time to first published invitation
+Percentage importing at least one guest
+Percentage sending or sharing an invitation
+Guest engagement
+Invitation open rate
+RSVP completion rate
+Median time from open to response
+Response update rate
+Reminder-to-response conversion
+Calendar-add rate
+Host engagement
+Weekly active hosts
+Dashboard visits per event
+Export usage
+Automation usage
+Multi-event adoption
+Co-host invitations
+Revenue
+Free-to-paid conversion
+Revenue per event
+Subscription retention
+SMS and AI credit revenue
+Agency-plan adoption
+Experience quality
+RSVP submission errors
+Message delivery failures
+Page load performance
+Support contacts per 1,000 events
+Host satisfaction
+Guest satisfaction
+Accessibility issues
+16. Pricing Recommendation
+Free
+Up to 50 invited guests
+Core templates
+Yes, No and Maybe RSVP
+Public or private link
+Real-time summary dashboard
+Basic custom questions
+QR sharing
+Invite.com branding
+Email support
+Plus: event-based purchase
+Up to 250 guests
+Premium templates
+Remove Invite.com branding
+Custom invitation upload
+Automated reminders
+Advanced questions
+CSV import and export
+Guest groups and plus-ones
+Basic check-in
+Shared gallery
+Pro: event-based purchase
+Higher or unlimited guest allowance
+Multiple sub-events
+Advanced automations
+Seating management
+QR check-in
+Custom domain
+Detailed analytics
+Scheduled reports
+Payments and ticketing
+Priority support
+Planner or Agency subscription
+Multiple client workspaces
+White-label branding
+Reusable templates
+Team roles
+Client approval
+API and webhooks
+Central billing
+Higher storage
+Service-level support
+
+Use transparent event-based pricing for personal hosts. Recurring subscriptions should be reserved primarily for planners, agencies and organizations.
+
+17. MVP Scope
+Must-have
+Host registration and login
+Event creation
+Template selection
+Invitation editor
+Responsive invitation page
+Public and private links
+QR-code generation
+Attending, not attending and maybe responses
+Guest name and contact collection
+Plus-one support
+Custom RSVP questions
+Real-time dashboard
+Guest search and filtering
+CSV import and export
+Email invitation and reminder
+WhatsApp share flow
+Add to calendar
+Map link
+Guest response editing
+Event cloning
+Basic privacy controls
+Admin moderation panel
+Should-have
+Sub-events
+Guest groups
+Multiple languages
+Conditional questions
+Scheduled reminders
+Co-host roles
+Check-in scanner
+RSVP analytics
+Invitation design upload
+PWA installation
+Polls
+Could-have
+AI writing
+AI design generation
+Seating charts
+Wallet passes
+Shared albums
+Gift registry
+Ticketing and payments
+Voice guest book
+Custom domains
+Webhooks
+White-label agency accounts
+18. Delivery Roadmap
+Phase 0: Discovery and foundation, 2 to 3 weeks
+Brand and domain validation
+User interviews
+Competitive review
+Data model
+Design system
+Technical proof of concept
+Security baseline
+Email deliverability setup
+Phase 1: MVP, 10 to 14 weeks
+Authentication
+Event creation
+Invitation templates
+RSVP forms
+Guest management
+Public and private links
+Dashboard
+Email and WhatsApp sharing
+CSV import and export
+Basic reports
+Admin console
+Phase 2: Growth, 8 to 10 weeks
+Multi-event support
+Automations
+Polls
+QR check-in
+Collaboration
+Multilingual invitations
+Premium templates
+Payment plans
+Analytics enhancements
+Phase 3: Competitive differentiation, 10 to 14 weeks
+Seating
+Shared albums
+Wallet passes
+AI assistant
+Custom domains
+Agency workspaces
+API and webhooks
+Advanced reporting
+Ticketing and payments
+19. Acceptance Criteria for MVP
+
+The MVP is ready when:
+
+A new host can create and publish an invitation without assistance.
+A guest can RSVP on mobile without an account.
+The host sees the response in the dashboard within the defined update interval.
+Guests can change their responses using a secure link.
+The host can distinguish adults, children and plus-ones.
+The host can filter and export guest data.
+Pending guests can receive reminders.
+Private invitations cannot be viewed without a valid token or configured verification.
+Invitation pages meet core WCAG 2.2 AA checks.
+Duplicate RSVP submissions do not create duplicate records.
+All sensitive actions are protected by authorization and audit logging.
+Public pages meet agreed performance targets.
+Email bounce and delivery failures are visible to hosts.
+Event deletion follows the documented retention policy.
+Core workflows work on desktop, Android and iPhone browsers.
+20. Recommended Product Positioning
+Primary headline
+
+Beautiful invitations. Instant RSVPs. Complete event clarity.
+
+Supporting copy
+
+Create and share a modern digital invitation in minutes. Guests can respond without an account, while you track attendance, plus-ones, preferences and check-ins in real time.
+
+Core differentiator
+
+Invite.com should not present itself only as an invitation-card maker. Its strongest positioning is:
+
+An invitation experience for guests and a real-time event command center for hosts.
+
+That positioning supports both simple birthdays and complex weddings or corporate events without making the product feel like enterprise software.
+
+Final Recommendation
+
+Start with a carefully constrained MVP centered on three exceptional experiences:
+
+A beautiful invitation builder
+A nearly frictionless guest RSVP
+A genuinely useful live host dashboard
+
+Do not initially overload the application with seating, budgeting, ticketing and AI. Design the data model to support those modules, but first make invitation creation, mobile sharing, attendance collection and live reporting excellent. The main competitive advantage will come from combining Partiful-level simplicity, RSVPify-level control, WhatsApp-first distribution, regional event support and privacy-by-default guest management in one coherent interface.

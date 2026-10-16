@@ -1,0 +1,89 @@
+name: invite
+
+# Host ports are deliberately non-default (see .env): web 8480, MySQL 33061, Mailpit UI 8425.
+# Everything talks over the dedicated invite_net network; only `web`, `db` and `mailpit` publish ports.
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: invite-app:dev
+    environment:
+      ROLE: app
+    env_file: .env
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "php", "bin/healthcheck.php"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+    networks: [invite_net]
+
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "${APP_PORT:-8480}:80"
+    volumes:
+      - ./public:/var/www/html/public:ro
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      app:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    networks: [invite_net]
+
+  worker:
+    image: invite-app:dev
+    command: ["php", "bin/worker.php"]
+    environment:
+      ROLE: worker
+    env_file: .env
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+    networks: [invite_net]
+
+  db:
+    image: mysql:8.0
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "--default-time-zone=+00:00"]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_FORWARD_PORT:-33061}:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    networks: [invite_net]
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "${MAILPIT_PORT:-8425}:8025"
+    networks: [invite_net]
+
+networks:
+  invite_net:
+    name: invite_net
+
+volumes:
+  db_data:

@@ -1,0 +1,23 @@
+FROM php:8.1-fpm-bookworm
+
+RUN docker-php-ext-install -j"$(nproc)" pdo_mysql && rm -rf /tmp/pear
+
+COPY docker/php.ini /usr/local/etc/php/conf.d/zz-app.ini
+COPY docker/fpm.conf /usr/local/etc/php-fpm.d/zz-app.conf
+RUN printf 'opcache.validate_timestamps=0\nopcache.memory_consumption=128\nopcache.max_accelerated_files=4000\n' > /usr/local/etc/php/conf.d/zz-prod.ini
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+WORKDIR /var/www/html
+COPY bootstrap.php ./
+COPY src ./src
+COPY views ./views
+COPY lang ./lang
+COPY routes ./routes
+COPY bin ./bin
+COPY database ./database
+COPY public ./public
+RUN mkdir -p storage/imports storage/logs public/uploads && chown -R www-data:www-data storage public/uploads
+
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["php-fpm"]

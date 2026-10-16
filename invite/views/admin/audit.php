@@ -1,0 +1,5 @@
+<?php $v->set('title', 'Admin: audit log'); ?>
+<?= $v->partial('partials/admin_nav', ['heading' => 'Audit log', 'section' => $section]) ?>
+<form method="get" action="/admin/audit" class="toolbar" role="search"><div class="field grow"><label for="action">Action starts with</label><input class="input" id="action" name="action" value="<?= e($action) ?>" placeholder="e.g. admin. or guest."></div><button class="btn btn-secondary" type="submit">Filter</button></form>
+<div class="table-wrap"><table class="table"><thead><tr><th scope="col">When (UTC)</th><th scope="col">Actor</th><th scope="col">Action</th><th scope="col">Entity</th><th scope="col">IP</th><th scope="col">Details</th></tr></thead>
+    <tbody><?php foreach ($rows as $a): ?><tr><td class="nowrap"><?= e($a['created_at']) ?></td><td><?= e($a['actor_email'] ?? $a['actor_type']) ?></td><td><?= e($a['action']) ?></td><td class="muted"><?= e($a['entity_type'] ? $a['entity_type'] . ' ' . substr((string) $a['entity_uuid'], 0, 8) : '') ?></td><td><?= e($a['ip']) ?></td><td class="muted"><?= e(str_limit((string) $a['meta'], 100)) ?></td></tr><?php endforeach; ?></tbody></table></div>

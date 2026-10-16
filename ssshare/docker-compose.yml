@@ -1,0 +1,68 @@
+services:
+  app:
+    build: ./docker/php
+    env_file: .env
+    volumes:
+      - ./:/var/www
+    depends_on:
+      db:
+        condition: service_healthy
+
+  scheduler:
+    build: ./docker/php
+    env_file: .env
+    command: ["php", "bin/scheduler.php"]
+    volumes:
+      - ./:/var/www
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      - ./public:/var/www/public:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    command: ["--log-bin-trust-function-creators=1", "--default-time-zone=+00:00"]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootsecret}
+      MYSQL_DATABASE: ${DB_DATABASE:-ssshare}
+      MYSQL_USER: ${DB_USERNAME:-ssshare}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-ssshare}
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${DB_ROOT_PASSWORD:-rootsecret}"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  # S3-compatible object storage (RustFS) for local development and the S3 driver tests.
+  s3:
+    image: rustfs/rustfs:latest
+    command: ["/data"]
+    environment:
+      RUSTFS_ACCESS_KEY: ${S3_KEY:-ssshare}
+      RUSTFS_SECRET_KEY: ${S3_SECRET:-ssshare-secret}
+      RUSTFS_SSE_S3_MASTER_KEY: ${S3_SSE_MASTER_KEY}
+    volumes:
+      - s3data:/data
+
+  # Captures outgoing email (SMTP on 1025, web UI on 8025).
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "${MAILPIT_PORT:-8025}:8025"
+
+volumes:
+  dbdata:
+  s3data:
